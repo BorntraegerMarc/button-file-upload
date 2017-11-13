@@ -1,0 +1,52 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/image-icons.html">
+
+<dom-module id="capture-picture">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <paper-icon-button icon="image:camera-alt" on-click="_onAddFilesClick"></paper-icon-button>
+        <input type="file" id="fileInput" accept="image/*" capture="environment" on-change="_onFileInputChange" hidden accept="image/*">
+    </template>
+
+    <script>
+        /**
+         * `capture-picture`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class CapturePicture extends Polymer.Element {
+            static get is() { return 'capture-picture'; }
+            static get properties() {
+                return {
+                    file: {
+                        type: Object,
+                        notify: true,
+                        value: {}
+                    }
+                };
+            }
+
+            _onAddFilesClick() {
+                if (this.maxFilesReached) {
+                    return;
+                }
+                this.$.fileInput.value = '';
+                this.$.fileInput.click();
+            }
+
+            _onFileInputChange(event) {
+                this.file = event.target.files[0];
+            }
+        }
+
+        window.customElements.define(CapturePicture.is, CapturePicture);
+    </script>
+</dom-module>
